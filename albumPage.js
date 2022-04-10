@@ -9,7 +9,7 @@ window.onload = () => {
     .then((songs) => {
       console.log(songs);
 
-      let songArr = { ...songs };
+      songCollection = { ...songs };
       let row = document.querySelector(".rowTop");
       row.innerHTML = "";
 
@@ -94,6 +94,43 @@ window.onload = () => {
     });
 };
 
+//search bar function to search for songs
+const searchAlbum = (event) => {
+  let searchQuery = event.target.value;
+  console.log(searchQuery);
+  let albumRow = document.querySelector(".trackRow");
+  albumRow.innerHTML = "";
+  let songsTrack = songCollection.tracks.data;
+  console.log(songsTrack);
+  songsTrack
+            .filter((song) => 
+              song.title.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .forEach((song, i) => {
+                    let col = document.createElement("div");
+                    col.classList.add("col-12");
+                    col.classList.add("d-flex");
+                    col.innerHTML = `<div id="album-track-list" class="col-5">
+                              <div class="ml-3 pb-4">
+                                <span class="track-num" >${i + 1 + "."}</span>
+                                <span class="album-song ml-4"
+                                  ><strong class="track-decoration">${song.title}</strong
+                                  ><br /><span class="singer-name">${
+                                    song.artist.name
+                                  }</span></span
+                                >
+                              </div>
+                            </div>
+                            <div id="album-music-player" class="col-6">
+                              <div class="d-flex flex-column"></div>
+                            </div>
+                            <div id="track-times" class="col-1">
+                              <div class="ml-3 pb-5">${song.duration}</div>
+                            </div>
+                                          `;
+                    albumRow.appendChild(col);
+                  });
+};
 // play pause button
 
 let showPauseButton = (event) => {
